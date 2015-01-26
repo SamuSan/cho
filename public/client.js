@@ -59,8 +59,8 @@ var App = (function () { "use strict";
     });
 
     socket.on('update scores', function (newScores) {
-      scores[1].match == newScores[1].match ? scoredPlayer = "Player 2" : scoredPlayer = "Player 1"
-      console.log("Player what scored the points" + scoredPlayer);
+      scores[1].match == newScores[1].match ? scoredPlayer = "Player 2" : scoredPlayer = "Player 1";
+      !scores[1].isServing && !scores[2].isServing ? scoredPlayer = "X" : scoredPlayer = scoredPlayer; 
 
       document.getElementById('dingSound').play();
       scores = newScores;
@@ -76,11 +76,11 @@ var App = (function () { "use strict";
 var PlayerScore = React.createClass({
   render: function () {
     var serving;
-    var playerNumber = "";
+    var playerID = "";
     var scoredPlayerDigitClass = "game";
 
-    this.props.score.name === "Player 1" ? playerNumber = "playerOne" : playerNumber = "playerTwo";
-    var backgroundClassString = "player " + playerNumber;
+    this.props.score.ID === 1 ? playerID = "playerOne" : playerID = "playerTwo";
+    var backgroundClassString = "player " + playerID;
 
     this.props.score.name === scoredPlayer ? scoredPlayerDigitClass += " flipInX animated" : scoredPlayerDigitClass += ""    
 
@@ -92,13 +92,13 @@ var PlayerScore = React.createClass({
       <div className={ backgroundClassString }>
       <h2>
         <ServingIndicator isServing={this.props.score.isServing} />
-        { this.props.score.name } { serving }
+        { this.props.score.name } 
       </h2>
         <div className={ scoredPlayerDigitClass }>
           <Digit score={ this.props.score.match } />
         </div>
         <div className="match">
-          { this.props.score.game } games
+          <WinNumber wins={ this.props.score.game } />
         </div>
       </div>
     )
@@ -128,12 +128,15 @@ var ScoreBoard = React.createClass({
 var ServingIndicator  = React.createClass({ 
   render: function(){
     var servingClass = "notServing";
-
+    var dimension = 80;
     if (this.props.isServing) {
       servingClass = "servingIndicator";
     };
 
-    return (         
+    return (     
+      // <span className={servingClass}>
+      //   <img src="digitImages/serve_indicator.png" width={ dimension } height={ dimension } />
+      // </span>    
       <svg width="60" height="60" className={ servingClass }>
         <g>
           <circle id="servingCircle" r="20" cy="20" cx="35" stroke-linecap="null" stroke-linejoin="bevel" stroke-dasharray="null" stroke="#000000" fill="#00bf00"/>
@@ -163,6 +166,19 @@ var Digit = React.createClass({
         <img className="scoreDigit" src={ imageUrlLeft } width={ dimension } height={ dimension } />
         <img className="scoreDigit" src={ imageUrlRight } width={ dimension } height={ dimension } />
       </span> 
+      );
+  }
+});
+
+var WinNumber = React.createClass({
+  render: function(){
+    var dimension = 40;
+    var imageUrl = "digitImages/digit_" + this.props.wins + ".png";
+
+    return(
+      <span>
+        <img className="winsDigit" src={ imageUrl } width={ dimension } height={ dimension } />
+      </span>
       );
   }
 });

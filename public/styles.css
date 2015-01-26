@@ -18,6 +18,7 @@ body {
 .servingIndicator{
   z-index: 1;
   float: left;
+  margin-left: 5px;
 }
 .notServing {
   display: none;

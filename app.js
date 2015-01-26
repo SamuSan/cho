@@ -12,6 +12,7 @@ function resetScores() {
   scores = {
     1: {
       name: 'Player 1',
+      ID: 1,
       game: 0,
       match: 0,
       isServing: false,
@@ -19,6 +20,7 @@ function resetScores() {
 
     2: {
       name: 'Player 2',
+      ID: 2,
       game: 0,
       match: 0,
       isServing: false,
