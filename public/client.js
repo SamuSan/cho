@@ -139,7 +139,7 @@ var ServingIndicator  = React.createClass({
       // </span>    
       <svg width="60" height="60" className={ servingClass }>
         <g>
-          <circle id="servingCircle" r="20" cy="20" cx="35" stroke-linecap="null" stroke-linejoin="bevel" stroke-dasharray="null" stroke="#000000" fill="#00bf00"/>
+          <circle id="servingCircle" r="30" cy="30" cx="30" stroke-linecap="null" stroke-linejoin="bevel" stroke-dasharray="null" stroke="#000000" fill="#00bf00"/>
         </g>
       </svg>
     );
