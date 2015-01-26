@@ -9,9 +9,25 @@ body {
   display: inline-block;
   text-align: center;
 }
-
+.playerOne {
+  background-color: blue;
+}
+.playerTwo {
+  background-color: red;
+}
+.servingIndicator{
+  z-index: 1;
+  float: left;
+}
+.notServing {
+  display: none;
+}
+.scoreDigit{
+  margin: 0px 2px 0px 2px; 
+}
 .game {
   font-size: 40pt;
+  color: white;
   margin: 30px;
 }
 

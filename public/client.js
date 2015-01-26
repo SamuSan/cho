@@ -5,6 +5,8 @@ var KEYS = {
   2: 50,
 };
 
+var scoredPlayer = "";
+
 var App = (function () { "use strict";
   var pub = {};
   var scores = {
@@ -57,7 +59,9 @@ var App = (function () { "use strict";
     });
 
     socket.on('update scores', function (newScores) {
-      console.log(newScores);
+      scores[1].match == newScores[1].match ? scoredPlayer = "Player 2" : scoredPlayer = "Player 1"
+      console.log("Player what scored the points" + scoredPlayer);
+
       document.getElementById('dingSound').play();
       scores = newScores;
       render();
@@ -72,16 +76,26 @@ var App = (function () { "use strict";
 var PlayerScore = React.createClass({
   render: function () {
     var serving;
+    var playerNumber = "";
+    var scoredPlayerDigitClass = "game";
+
+    this.props.score.name === "Player 1" ? playerNumber = "playerOne" : playerNumber = "playerTwo";
+    var backgroundClassString = "player " + playerNumber;
+
+    this.props.score.name === scoredPlayer ? scoredPlayerDigitClass += " flipInX animated" : scoredPlayerDigitClass += ""    
 
     if (this.props.score.isServing) {
       serving = '(Serving)';
     }
 
     return (
-      <div className="player">
-        <h2>{ this.props.score.name } { serving }</h2>
-        <div className="game">
-          { this.props.score.match }
+      <div className={ backgroundClassString }>
+      <h2>
+        <ServingIndicator isServing={this.props.score.isServing} />
+        { this.props.score.name } { serving }
+      </h2>
+        <div className={ scoredPlayerDigitClass }>
+          <Digit score={ this.props.score.match } />
         </div>
         <div className="match">
           { this.props.score.game } games
@@ -111,4 +125,45 @@ var ScoreBoard = React.createClass({
   }
 });
 
+var ServingIndicator  = React.createClass({ 
+  render: function(){
+    var servingClass = "notServing";
+
+    if (this.props.isServing) {
+      servingClass = "servingIndicator";
+    };
+
+    return (         
+      <svg width="60" height="60" className={ servingClass }>
+        <g>
+          <circle id="servingCircle" r="20" cy="20" cx="35" stroke-linecap="null" stroke-linejoin="bevel" stroke-dasharray="null" stroke="#000000" fill="#00bf00"/>
+        </g>
+      </svg>
+    );
+  }
+});
+
+var Digit = React.createClass({
+    render: function(){
+    var imageUrlLeft = "digitImages/digit_0.png";
+    var imageUrlRight = imageUrlLeft;
+
+    if (this.props.score < 10) {
+      imageUrlRight = "digitImages/digit_"+ this.props.score +".png";
+    } 
+    else{
+      var parsed = "" + this.props.score;
+      imageUrlLeft = "digitImages/digit_" + parsed[0] + ".png";
+      imageUrlRight = "digitImages/digit_"+ parsed[1] +".png";
+    };  
+    var dimension = "200";  
+
+    return (
+      <span>
+        <img className="scoreDigit" src={ imageUrlLeft } width={ dimension } height={ dimension } />
+        <img className="scoreDigit" src={ imageUrlRight } width={ dimension } height={ dimension } />
+      </span> 
+      );
+  }
+});
 $(App.start);
