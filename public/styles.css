@@ -26,6 +26,9 @@ body {
 .scoreDigit{
   margin: 0px 2px 0px 2px; 
 }
+.choImage {
+  float: right;
+}
 .game {
   font-size: 40pt;
   color: white;
